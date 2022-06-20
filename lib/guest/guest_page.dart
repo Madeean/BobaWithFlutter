@@ -1,3 +1,4 @@
+import 'package:bobawithflutter/auth/login_page.dart';
 import 'package:bobawithflutter/guest/home_guest_page.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,9 @@ class _GuestPageState extends State<GuestPage> {
       switch (currentIndex) {
         case 0:
           return HomeGuestPage();
+          break;
+        case 1:
+          return LoginPage();
           break;
         default:
           return HomeGuestPage();
