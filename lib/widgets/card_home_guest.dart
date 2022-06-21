@@ -2,8 +2,8 @@ import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class CardHomeGuest extends StatelessWidget {
-  const CardHomeGuest({Key? key}) : super(key: key);
-
+  bool isButton = false;
+  CardHomeGuest({required this.isButton});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,27 +56,29 @@ class CardHomeGuest extends StatelessWidget {
                   SizedBox(
                     height: 12,
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(
-                      right: 12,
-                    ),
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          )),
-                      child: Text(
-                        'Detail',
-                        style: primaryTextStyle.copyWith(
-                          fontSize: 16,
-                          fontWeight: medium,
-                        ),
-                      ),
-                    ),
-                  ),
+                  isButton
+                      ? Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            right: 12,
+                          ),
+                          child: TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                                backgroundColor: primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                )),
+                            child: Text(
+                              'Detail',
+                              style: primaryTextStyle.copyWith(
+                                fontSize: 16,
+                                fontWeight: medium,
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               ),
             ),

@@ -27,11 +27,13 @@ class HomeGuestPage extends StatelessWidget {
         color: backgroundColor3,
         child: Column(
           children: [
-            CardHomeGuest(),
-            CardHomeGuest(),
-            CardHomeGuest(),
-            CardHomeGuest(),
-            CardHomeGuest(),
+            CardHomeGuest(
+              isButton: false,
+            ),
+            CardHomeGuest(isButton: false),
+            CardHomeGuest(isButton: false),
+            CardHomeGuest(isButton: false),
+            CardHomeGuest(isButton: false),
           ],
         ),
       );

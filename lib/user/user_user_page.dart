@@ -1,4 +1,6 @@
 import 'package:bobawithflutter/theme.dart';
+import 'package:bobawithflutter/user/booking_page_user.dart';
+import 'package:bobawithflutter/user/profile_page_user.dart';
 import 'package:bobawithflutter/user/user_home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -90,6 +92,12 @@ class _userUserPageState extends State<userUserPage> {
       switch (currentIndex) {
         case 0:
           return UserHomePage();
+          break;
+        case 1:
+          return BookingPageUser();
+          break;
+        case 2:
+          return ProfilePageUser();
           break;
         default:
           return UserHomePage();
