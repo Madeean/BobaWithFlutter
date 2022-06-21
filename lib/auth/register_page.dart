@@ -1,24 +1,26 @@
-import 'package:bobawithflutter/theme.dart';
+import 'package:bobawithflutter/widgets/button_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:bobawithflutter/auth/login_page.dart';
+import 'package:bobawithflutter/guest/home_guest_page.dart';
+import 'package:bobawithflutter/theme.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     PreferredSizeWidget header() {
       return AppBar(
-        backgroundColor: backgroundColor2,
-        automaticallyImplyLeading: false,
         elevation: 0,
         centerTitle: true,
+        backgroundColor: backgroundColor2,
         title: Text(
-          'Login Page',
+          'Register Page',
           style: primaryTextStyle.copyWith(
             fontSize: 25,
           ),
@@ -26,9 +28,62 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
+    Widget nameInput() {
+      return Container(
+        margin: EdgeInsets.only(left: defaultMargin, right: defaultMargin),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Name',
+              style: primaryTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: medium,
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Container(
+              height: 55,
+              padding: EdgeInsets.only(left: 12, right: 12),
+              decoration: BoxDecoration(
+                color: backgroundColor2,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/icon_name.png',
+                      width: 25,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        style: primaryTextStyle,
+                        autocorrect: true,
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your Name',
+                          hintStyle: subtitleTextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     Widget emailInput() {
       return Container(
-        margin: EdgeInsets.only(top: defaultMargin, bottom: defaultMargin),
+        margin: EdgeInsets.only(
+            left: defaultMargin, right: defaultMargin, top: defaultMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,9 +99,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               height: 55,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: EdgeInsets.only(left: 12, right: 12),
               decoration: BoxDecoration(
                 color: backgroundColor2,
                 borderRadius: BorderRadius.circular(12),
@@ -82,7 +135,8 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget passwordInput() {
       return Container(
-        margin: EdgeInsets.only(top: 12, bottom: defaultMargin),
+        margin: EdgeInsets.only(
+            left: defaultMargin, right: defaultMargin, top: defaultMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -98,9 +152,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               height: 55,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: EdgeInsets.only(left: 12, right: 12),
               decoration: BoxDecoration(
                 color: backgroundColor2,
                 borderRadius: BorderRadius.circular(12),
@@ -121,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                         autocorrect: true,
                         obscureText: true,
                         decoration: InputDecoration.collapsed(
-                          hintText: 'Your password',
+                          hintText: 'Your Password',
                           hintStyle: subtitleTextStyle,
                         ),
                       ),
@@ -136,67 +188,43 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     Widget button() {
-      return Column(
-        children: [
-          Container(
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.only(top: 12),
-                height: 50,
-                width: 250,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/user/home', (route) => false);
-                  },
-                  child: Text(
-                    'Login',
-                    style: primaryTextStyle.copyWith(fontSize: 18),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+      return Container(
+        child: Center(
+          child: Container(
+            margin: EdgeInsets.only(top: defaultMargin),
+            height: 50,
+            width: 250,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+              child: Text(
+                'Register',
+                style: primaryTextStyle.copyWith(fontSize: 18),
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 12),
-            child: Row(
-              children: [
-                Text(
-                  'Blum punya akun?',
-                  style: primaryTextStyle,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
-                  child: Text('Register'),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       );
     }
 
     return Scaffold(
       appBar: header(),
-      backgroundColor: backgroundColor1,
       resizeToAvoidBottomInset: false,
+      backgroundColor: backgroundColor1,
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+          margin: EdgeInsets.only(top: defaultMargin, bottom: defaultMargin),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              nameInput(),
               emailInput(),
               passwordInput(),
               button(),
