@@ -63,7 +63,9 @@ class CardHomeGuest extends StatelessWidget {
                             right: 12,
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/facility-detail');
+                            },
                             style: TextButton.styleFrom(
                                 backgroundColor: primaryColor,
                                 shape: RoundedRectangleBorder(
