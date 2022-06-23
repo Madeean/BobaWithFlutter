@@ -1,9 +1,10 @@
 import 'package:bobawithflutter/theme.dart';
 import 'package:bobawithflutter/widgets/card_booking.dart';
+import 'package:bobawithflutter/widgets/card_booking_management.dart';
 import 'package:flutter/material.dart';
 
-class BookingPageAdmin extends StatelessWidget {
-  const BookingPageAdmin({Key? key}) : super(key: key);
+class BookingPageManagement extends StatelessWidget {
+  const BookingPageManagement({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class BookingPageAdmin extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Booking Page User',
+          'Booking Page Management',
           style: primaryTextStyle.copyWith(
             fontSize: 25,
           ),
@@ -27,10 +28,10 @@ class BookingPageAdmin extends StatelessWidget {
         children: [
           Column(
             children: [
-              CardBooking(),
-              CardBooking(),
-              CardBooking(),
-              CardBooking(),
+              CardBookingManagement(),
+              CardBookingManagement(),
+              CardBookingManagement(),
+              CardBookingManagement(),
             ],
           )
         ],
