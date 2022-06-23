@@ -1,3 +1,4 @@
+import 'package:bobawithflutter/admin/admin_home_page.dart';
 import 'package:bobawithflutter/auth/register_page.dart';
 import 'package:bobawithflutter/guest/guest_page.dart';
 import 'package:bobawithflutter/pages/facility_detail.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterPage(),
         '/user/home': (context) => userUserPage(),
         '/facility-detail': (context) => FacilityDetail(),
+        '/admin/home': (context) => AdminHomePage(),
       },
     );
   }

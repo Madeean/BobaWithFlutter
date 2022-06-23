@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextButton(
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
-                        context, '/user/home', (route) => false);
+                        context, '/admin/home', (route) => false);
                   },
                   child: Text(
                     'Login',
