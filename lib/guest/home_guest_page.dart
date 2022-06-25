@@ -1,12 +1,36 @@
+import 'package:bobawithflutter/providers/facility_provider.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:bobawithflutter/widgets/card_home_guest.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomeGuestPage extends StatelessWidget {
+class HomeGuestPage extends StatefulWidget {
   const HomeGuestPage({Key? key}) : super(key: key);
 
   @override
+  State<HomeGuestPage> createState() => _HomeGuestPageState();
+}
+
+class _HomeGuestPageState extends State<HomeGuestPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    getInit();
+
+    // NOTE: TIMER
+    // Timer(Duration(seconds: 3), () => Navigator.pushNamed(context, '/sign-in'));
+
+    super.initState();
+  }
+
+  getInit() async {
+    await Provider.of<FacilityProvider>(context, listen: false).getFacility();
+  }
+
   Widget build(BuildContext context) {
+    FacilityProvider facilityProvider = Provider.of<FacilityProvider>(context);
+
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor2,
@@ -26,21 +50,16 @@ class HomeGuestPage extends StatelessWidget {
       return Container(
         color: backgroundColor3,
         child: Column(
-          children: [
-            CardHomeGuest(
-              isButton: false,
-            ),
-            CardHomeGuest(isButton: false),
-            CardHomeGuest(isButton: false),
-            CardHomeGuest(isButton: false),
-            CardHomeGuest(isButton: false),
-          ],
+          children: facilityProvider.facility
+              .map((facility) => CardHomeGuest(false, facility))
+              .toList(),
         ),
       );
     }
 
     return Scaffold(
       appBar: header(),
+      backgroundColor: backgroundColor3,
       body: ListView(
         children: [
           content(),

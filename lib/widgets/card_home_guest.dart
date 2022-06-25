@@ -1,9 +1,20 @@
+import 'package:bobawithflutter/models/facility_model.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 
 class CardHomeGuest extends StatelessWidget {
   bool isButton = false;
-  CardHomeGuest({required this.isButton});
+  late final FacilityModel facility;
+  CardHomeGuest(this.isButton, this.facility);
+
+  String _parseHtmlString(String htmlString) {
+    final document = parse(htmlString);
+    final String parsedString = parse(document.body.text).documentElement.text;
+
+    return parsedString;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,8 +29,8 @@ class CardHomeGuest extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              'assets/image_shoes.png',
+            child: Image.network(
+              facility.image!,
               width: 150,
               fit: BoxFit.cover,
             ),
@@ -34,7 +45,7 @@ class CardHomeGuest extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Swimming Pool',
+                    facility.name.toString(),
                     style: blackTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
@@ -45,13 +56,13 @@ class CardHomeGuest extends StatelessWidget {
                     height: 12,
                   ),
                   Text(
-                    'lets booking swimming pool',
+                    _parseHtmlString(facility.body.toString()),
                     style: blackTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,
                     ),
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                    maxLines: 2,
                   ),
                   SizedBox(
                     height: 12,
