@@ -60,7 +60,9 @@ class FacilityDetail extends StatelessWidget {
         height: 75,
         width: double.infinity,
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/booking/facility');
+          },
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(

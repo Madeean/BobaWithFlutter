@@ -38,7 +38,9 @@ class FacilityPageManagement extends StatelessWidget {
               width: 100,
               height: 50,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/add/facility');
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
