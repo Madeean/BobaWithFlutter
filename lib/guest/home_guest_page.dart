@@ -12,8 +12,12 @@ class HomeGuestPage extends StatefulWidget {
 }
 
 class _HomeGuestPageState extends State<HomeGuestPage> {
+  bool isLoading = false;
   @override
   void initState() {
+    setState(() {
+      isLoading = true;
+    });
     // TODO: implement initState
 
     getInit();
@@ -22,14 +26,44 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
     // Timer(Duration(seconds: 3), () => Navigator.pushNamed(context, '/sign-in'));
 
     super.initState();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   getInit() async {
+    setState(() {
+      isLoading = true;
+    });
     await Provider.of<FacilityProvider>(context, listen: false).getFacility();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Widget build(BuildContext context) {
     FacilityProvider facilityProvider = Provider.of<FacilityProvider>(context);
+
+    Widget loading() {
+      return Container(
+        margin: EdgeInsets.only(top: 202),
+        height: 50,
+        width: double.infinity,
+        child: Center(
+          child: Container(
+            width: 16,
+            height: 16,
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                primaryTextColor,
+              ),
+              strokeWidth: 2,
+            ),
+          ),
+        ),
+      );
+    }
 
     PreferredSizeWidget header() {
       return AppBar(
@@ -62,7 +96,7 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
       backgroundColor: backgroundColor3,
       body: ListView(
         children: [
-          content(),
+          isLoading ? loading() : content(),
         ],
       ),
     );

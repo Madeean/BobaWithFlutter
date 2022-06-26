@@ -5,6 +5,7 @@ import 'package:bobawithflutter/guest/guest_page.dart';
 import 'package:bobawithflutter/management/management_home_page.dart';
 import 'package:bobawithflutter/pages/booking_facility.dart';
 import 'package:bobawithflutter/pages/facility_detail.dart';
+import 'package:bobawithflutter/providers/auth_provider.dart';
 import 'package:bobawithflutter/providers/facility_provider.dart';
 import 'package:bobawithflutter/user/user_user_page.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => FacilityProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
         ),
       ],
       child: MaterialApp(

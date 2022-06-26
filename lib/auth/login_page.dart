@@ -1,5 +1,8 @@
+import 'package:bobawithflutter/providers/auth_provider.dart';
 import 'package:bobawithflutter/theme.dart';
+import 'package:bobawithflutter/widgets/button_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -9,8 +12,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleLogin() async {
+      setState(() {
+        isLoading = true;
+      });
+      if (await authProvider.login(
+        email: emailController.text,
+        password: passwordController.text,
+      )) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/user/home', (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
+            ),
+            backgroundColor: alertColor,
+            content: Text(
+              'Gagal Login',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor2,
@@ -65,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextFormField(
                         style: primaryTextStyle,
                         autocorrect: true,
+                        controller: emailController,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Email',
                           hintStyle: subtitleTextStyle,
@@ -120,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: primaryTextStyle,
                         autocorrect: true,
                         obscureText: true,
+                        controller: passwordController,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your password',
                           hintStyle: subtitleTextStyle,
@@ -141,14 +182,13 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             child: Center(
               child: Container(
-                margin: EdgeInsets.only(top: 12),
+                margin: EdgeInsets.only(top: defaultMargin),
                 height: 50,
                 width: 250,
                 child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/user/home', (route) => false);
-                  },
+                  onPressed: handleLogin,
+                  // Navigator.pushNamedAndRemoveUntil(
+                  //     context, '/user/home', (route) => false);
                   child: Text(
                     'Login',
                     style: primaryTextStyle.copyWith(fontSize: 18),
@@ -199,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               emailInput(),
               passwordInput(),
-              button(),
+              isLoading ? ButtonLoading() : button(),
             ],
           ),
         ),
