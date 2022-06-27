@@ -1,11 +1,17 @@
+import 'package:bobawithflutter/models/user_login_model.dart';
+import 'package:bobawithflutter/providers/auth_provider.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePageAdmin extends StatelessWidget {
   const ProfilePageAdmin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserLoginModel userLoginModel = authProvider.user;
+
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor2,
@@ -29,7 +35,7 @@ class ProfilePageAdmin extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Hallo, Madee',
+                'Hallo, ${userLoginModel.name}',
                 style: primaryTextStyle.copyWith(
                   fontSize: 30,
                   fontWeight: semiBold,
@@ -40,7 +46,7 @@ class ProfilePageAdmin extends StatelessWidget {
                 height: 12,
               ),
               Text(
-                'Madee@gmail.com',
+                '${userLoginModel.email}',
                 style: secondaryTextStyle,
                 overflow: TextOverflow.ellipsis,
               ),

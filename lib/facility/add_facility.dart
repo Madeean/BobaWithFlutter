@@ -149,7 +149,7 @@ class _AddFacilityState extends State<AddFacility> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Name',
+              'Body',
               style: primaryTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: medium,

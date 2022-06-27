@@ -1,8 +1,10 @@
+import 'package:bobawithflutter/models/get_user_model.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class CardUserAdmin extends StatelessWidget {
-  const CardUserAdmin({Key? key}) : super(key: key);
+  late final GetUserModel getUserModel;
+  CardUserAdmin(this.getUserModel);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CardUserAdmin extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    'Made',
+                    '${getUserModel.name}',
                     style: primaryTextStyle,
                   )
                 ],
@@ -49,7 +51,7 @@ class CardUserAdmin extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    'madee@gmail.com',
+                    '${getUserModel.email}',
                     style: primaryTextStyle,
                   ),
                 ],
@@ -68,7 +70,7 @@ class CardUserAdmin extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    'Admin',
+                    '${getUserModel.role}',
                     style: primaryTextStyle,
                   ),
                 ],

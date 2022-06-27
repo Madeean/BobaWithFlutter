@@ -15,9 +15,6 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
   bool isLoading = false;
   @override
   void initState() {
-    setState(() {
-      isLoading = true;
-    });
     // TODO: implement initState
 
     getInit();
@@ -26,9 +23,6 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
     // Timer(Duration(seconds: 3), () => Navigator.pushNamed(context, '/sign-in'));
 
     super.initState();
-    setState(() {
-      isLoading = false;
-    });
   }
 
   getInit() async {

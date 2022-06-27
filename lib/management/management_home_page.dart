@@ -1,8 +1,12 @@
 import 'package:bobawithflutter/management/booking_page_management.dart';
 import 'package:bobawithflutter/management/facility_page_manajemen.dart';
 import 'package:bobawithflutter/management/profile_page_management.dart';
+import 'package:bobawithflutter/models/user_login_model.dart';
+import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/facility_provider_amu.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ManagementHomePage extends StatefulWidget {
   const ManagementHomePage({Key? key}) : super(key: key);
@@ -15,6 +19,15 @@ class _ManagementHomePageState extends State<ManagementHomePage> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserLoginModel userLoginModel = authProvider.user;
+    FacilityProviderAmu facilityProviderAmu =
+        Provider.of<FacilityProviderAmu>(context);
+
+    gefacilityamuHandling() async {
+      await facilityProviderAmu.getFacility(userLoginModel.token.toString());
+    }
+
     Widget customBottomNav() {
       return ClipRRect(
         borderRadius: BorderRadius.vertical(
@@ -76,6 +89,7 @@ class _ManagementHomePageState extends State<ManagementHomePage> {
     Widget body() {
       switch (currentIndex) {
         case 0:
+          gefacilityamuHandling();
           return FacilityPageManagement();
           break;
         case 1:

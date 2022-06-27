@@ -1,11 +1,22 @@
+import 'package:bobawithflutter/models/facility_model_AMU.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 
 class CardFamilyAdmin extends StatelessWidget {
-  const CardFamilyAdmin({Key? key}) : super(key: key);
+  late final FacilityModelAmu facilityModelAmu;
+  CardFamilyAdmin(this.facilityModelAmu);
 
   @override
   Widget build(BuildContext context) {
+    String _parseHtmlString(String htmlString) {
+      final document = parse(htmlString);
+      final String parsedString =
+          parse(document.body.text).documentElement.text;
+
+      return parsedString;
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 12, horizontal: defaultMargin),
       width: double.infinity,
@@ -18,8 +29,8 @@ class CardFamilyAdmin extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              'assets/image_shoes.png',
+            child: Image.network(
+              facilityModelAmu.image!,
               width: 150,
               fit: BoxFit.cover,
             ),
@@ -34,7 +45,7 @@ class CardFamilyAdmin extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Swimming Pool',
+                    '${facilityModelAmu.name}',
                     style: blackTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
@@ -45,7 +56,7 @@ class CardFamilyAdmin extends StatelessWidget {
                     height: 12,
                   ),
                   Text(
-                    'lets booking swimming pool',
+                    _parseHtmlString(facilityModelAmu.body.toString()),
                     style: blackTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,

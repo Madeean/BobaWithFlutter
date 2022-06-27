@@ -6,7 +6,10 @@ import 'package:bobawithflutter/management/management_home_page.dart';
 import 'package:bobawithflutter/pages/booking_facility.dart';
 import 'package:bobawithflutter/pages/facility_detail.dart';
 import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/booking_provider.dart';
 import 'package:bobawithflutter/providers/facility_provider.dart';
+import 'package:bobawithflutter/providers/facility_provider_amu.dart';
+import 'package:bobawithflutter/providers/get_user_provider.dart';
 import 'package:bobawithflutter/user/user_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +33,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FacilityProviderAmu(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetUserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BookingProvider(),
         ),
       ],
       child: MaterialApp(

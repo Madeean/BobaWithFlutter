@@ -50,10 +50,10 @@ class BookingPageUser extends StatelessWidget {
           ),
           Column(
             children: [
-              CardBooking(),
-              CardBooking(),
-              CardBooking(),
-              CardBooking(),
+              // CardBooking(),
+              // CardBooking(),
+              // CardBooking(),
+              // CardBooking(),
             ],
           )
         ],

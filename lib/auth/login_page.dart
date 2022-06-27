@@ -1,4 +1,8 @@
+import 'package:bobawithflutter/models/user_login_model.dart';
 import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/booking_provider.dart';
+import 'package:bobawithflutter/providers/facility_provider_amu.dart';
+import 'package:bobawithflutter/providers/get_user_provider.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:bobawithflutter/widgets/button_loading.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +22,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    FacilityProviderAmu facilityProviderAmu =
+        Provider.of<FacilityProviderAmu>(context);
+    GetUserProvider getUserProvider = Provider.of<GetUserProvider>(context);
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
 
     handleLogin() async {
       setState(() {
@@ -27,8 +35,24 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text,
         password: passwordController.text,
       )) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/user/home', (route) => false);
+        UserLoginModel userLoginModel = authProvider.user;
+        if (userLoginModel.role.toString() == 'admin') {
+          await facilityProviderAmu
+              .getFacility(userLoginModel.token.toString());
+          await getUserProvider.getUser(userLoginModel.token.toString());
+          await bookingProvider.getBookings(userLoginModel.token.toString());
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/admin/home', (route) => false);
+        } else if (userLoginModel.role.toString() == 'management') {
+          await bookingProvider.getBookings(userLoginModel.token.toString());
+          await facilityProviderAmu
+              .getFacility(userLoginModel.token.toString());
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/management/home', (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/user/home', (route) => false);
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -228,21 +252,23 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: header(),
       backgroundColor: backgroundColor1,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              emailInput(),
-              passwordInput(),
-              isLoading ? ButtonLoading() : button(),
-            ],
+      body: ListView(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                emailInput(),
+                passwordInput(),
+                isLoading ? ButtonLoading() : button(),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

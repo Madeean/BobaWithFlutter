@@ -1,8 +1,10 @@
+import 'package:bobawithflutter/models/booking_model.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class CardBooking extends StatelessWidget {
-  const CardBooking({Key? key}) : super(key: key);
+  late final BookingModel booking;
+  CardBooking(this.booking);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class CardBooking extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    'Made',
+                    '${booking.user!.name}',
                     style: blackTextStyle,
                   )
                 ],
@@ -62,7 +64,7 @@ class CardBooking extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    'Swimming pool',
+                    '${booking.facility!.name}',
                     style: blackTextStyle,
                   ),
                 ],
@@ -81,7 +83,7 @@ class CardBooking extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '1996-09-23',
+                    '${booking.date}',
                     style: blackTextStyle,
                   ),
                 ],
@@ -105,7 +107,7 @@ class CardBooking extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '00:31:46',
+                    '${booking.start_time}',
                     style: blackTextStyle,
                   )
                 ],
@@ -124,7 +126,7 @@ class CardBooking extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '05:40:59',
+                    '${booking.end_time}',
                     style: blackTextStyle,
                   ),
                 ],
@@ -143,7 +145,7 @@ class CardBooking extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    'Waiting Management',
+                    '${booking.status}',
                     style: blackTextStyle,
                   ),
                 ],
