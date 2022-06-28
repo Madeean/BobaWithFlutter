@@ -1,8 +1,14 @@
+import 'package:bobawithflutter/models/user_login_model.dart';
+import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/booking_provider.dart';
+import 'package:bobawithflutter/providers/facility_provider.dart';
+import 'package:bobawithflutter/providers/facility_provider_amu.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:bobawithflutter/user/booking_page_user.dart';
 import 'package:bobawithflutter/user/profile_page_user.dart';
 import 'package:bobawithflutter/user/user_home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class userUserPage extends StatefulWidget {
   const userUserPage({Key? key}) : super(key: key);
@@ -15,6 +21,19 @@ class _userUserPageState extends State<userUserPage> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    FacilityProviderAmu facilityProviderAmu =
+        Provider.of<FacilityProviderAmu>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserLoginModel userLoginModel = authProvider.user;
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
+
+    getFacilityHandling() async {
+      await facilityProviderAmu.getFacility(userLoginModel.token.toString());
+    }
+
+    getBookingHandle() async {
+      await bookingProvider.getBookings(userLoginModel.token.toString());
+    }
     // PreferredSizeWidget header() {
     //   return AppBar(
     //     elevation: 0,
@@ -91,9 +110,11 @@ class _userUserPageState extends State<userUserPage> {
     Widget body() {
       switch (currentIndex) {
         case 0:
+          getFacilityHandling();
           return UserHomePage();
           break;
         case 1:
+          getBookingHandle();
           return BookingPageUser();
           break;
         case 2:

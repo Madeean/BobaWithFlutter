@@ -3,6 +3,7 @@ import 'package:bobawithflutter/management/facility_page_manajemen.dart';
 import 'package:bobawithflutter/management/profile_page_management.dart';
 import 'package:bobawithflutter/models/user_login_model.dart';
 import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/booking_provider.dart';
 import 'package:bobawithflutter/providers/facility_provider_amu.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,12 @@ class _ManagementHomePageState extends State<ManagementHomePage> {
     UserLoginModel userLoginModel = authProvider.user;
     FacilityProviderAmu facilityProviderAmu =
         Provider.of<FacilityProviderAmu>(context);
+
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
+
+    getBookingHandling() async {
+      await bookingProvider.getBookings(userLoginModel.token.toString());
+    }
 
     gefacilityamuHandling() async {
       await facilityProviderAmu.getFacility(userLoginModel.token.toString());
@@ -93,6 +100,7 @@ class _ManagementHomePageState extends State<ManagementHomePage> {
           return FacilityPageManagement();
           break;
         case 1:
+          getBookingHandling();
           return BookingPageManagement();
           break;
         case 2:

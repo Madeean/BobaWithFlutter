@@ -1,12 +1,20 @@
+import 'package:bobawithflutter/models/booking_model.dart';
+import 'package:bobawithflutter/pages/booking_booking_page.dart';
+import 'package:bobawithflutter/providers/booking_provider.dart';
+import 'package:bobawithflutter/providers/facility_provider_amu.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:bobawithflutter/widgets/card_booking.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BookingPageUser extends StatelessWidget {
   const BookingPageUser({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
+    FacilityProviderAmu facilityProviderAmu =
+        Provider.of<FacilityProviderAmu>(context);
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor2,
@@ -33,7 +41,13 @@ class BookingPageUser extends StatelessWidget {
                 height: 50,
                 margin: EdgeInsets.all(defaultMargin),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                BookingBookingPage(facilityProviderAmu)));
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: primaryColor,
                     shape: RoundedRectangleBorder(
@@ -49,12 +63,13 @@ class BookingPageUser extends StatelessWidget {
             ],
           ),
           Column(
-            children: [
-              // CardBooking(),
-              // CardBooking(),
-              // CardBooking(),
-              // CardBooking(),
-            ],
+            children: bookingProvider.bookings
+                .map((booking) => CardBooking(booking))
+                .toList(),
+            // CardBooking(),
+            // CardBooking(),
+            // CardBooking(),
+            // CardBooking(),
           )
         ],
       );

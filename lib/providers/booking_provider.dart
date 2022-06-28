@@ -19,4 +19,39 @@ class BookingProvider with ChangeNotifier {
       print(err);
     }
   }
+
+  Future<void> addBooking(
+    String token,
+    int facility_id,
+    String date,
+    String start_time,
+    String end_time,
+  ) async {
+    try {
+      await BookingService().addBooking(
+          token: token,
+          facility_id: facility_id,
+          date: date,
+          start_time: start_time,
+          end_time: end_time);
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future<void> postApproved(int id, String token) async {
+    try {
+      await BookingService().postApproved(id: id, token: token);
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future<void> postRejected(int id, String token) async {
+    try {
+      await BookingService().postRejected(id: id, token: token);
+    } catch (err) {
+      print(err);
+    }
+  }
 }

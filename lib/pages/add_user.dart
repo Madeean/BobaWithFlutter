@@ -1,61 +1,37 @@
-import 'package:bobawithflutter/models/user_login_model.dart';
 import 'package:bobawithflutter/providers/auth_provider.dart';
-import 'package:bobawithflutter/providers/booking_provider.dart';
-import 'package:bobawithflutter/providers/facility_provider_amu.dart';
-import 'package:bobawithflutter/providers/get_user_provider.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:bobawithflutter/widgets/button_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
+class AddUser extends StatefulWidget {
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AddUser> createState() => _AddUserState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController(text: '');
-  TextEditingController passwordController = TextEditingController(text: '');
+class _AddUserState extends State<AddUser> {
   bool isLoading = false;
+
+  TextEditingController nameController = TextEditingController(text: '');
+
+  TextEditingController emailController = TextEditingController(text: '');
+
+  TextEditingController passwordController = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    FacilityProviderAmu facilityProviderAmu =
-        Provider.of<FacilityProviderAmu>(context);
-    GetUserProvider getUserProvider = Provider.of<GetUserProvider>(context);
-    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
-
-    handleLogin() async {
+    addUserHandling() async {
       setState(() {
         isLoading = true;
       });
-      if (await authProvider.login(
+
+      if (await authProvider.register(
+        name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
       )) {
-        UserLoginModel userLoginModel = authProvider.user;
-        if (userLoginModel.role.toString() == 'admin') {
-          await facilityProviderAmu
-              .getFacility(userLoginModel.token.toString());
-          await getUserProvider.getUser(userLoginModel.token.toString());
-          await bookingProvider.getBookings(userLoginModel.token.toString());
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/admin/home', (route) => false);
-        } else if (userLoginModel.role.toString() == 'management') {
-          await bookingProvider.getBookings(userLoginModel.token.toString());
-          await facilityProviderAmu
-              .getFacility(userLoginModel.token.toString());
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/management/home', (route) => false);
-        } else {
-          await facilityProviderAmu
-              .getFacility(userLoginModel.token.toString());
-          await bookingProvider.getBookings(userLoginModel.token.toString());
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/user/home', (route) => false);
-        }
+        Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -66,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             backgroundColor: alertColor,
             content: Text(
-              'Gagal Login',
+              'Gagal add User',
               textAlign: TextAlign.center,
             ),
           ),
@@ -80,11 +56,10 @@ class _LoginPageState extends State<LoginPage> {
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor2,
-        automaticallyImplyLeading: false,
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Login Page',
+          'Add User',
           style: primaryTextStyle.copyWith(
             fontSize: 25,
           ),
@@ -203,6 +178,61 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
+    Widget nameInput() {
+      return Container(
+        margin: EdgeInsets.only(top: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Name',
+              style: primaryTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: medium,
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Container(
+              height: 55,
+              padding: EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              decoration: BoxDecoration(
+                color: backgroundColor2,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/icon_name.png',
+                      width: 25,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        style: primaryTextStyle,
+                        autocorrect: true,
+                        controller: nameController,
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Your name',
+                          hintStyle: subtitleTextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     Widget button() {
       return Column(
         children: [
@@ -213,11 +243,11 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50,
                 width: 250,
                 child: TextButton(
-                  onPressed: handleLogin,
+                  onPressed: addUserHandling,
                   // Navigator.pushNamedAndRemoveUntil(
                   //     context, '/user/home', (route) => false);
                   child: Text(
-                    'Login',
+                    'Add User',
                     style: primaryTextStyle.copyWith(fontSize: 18),
                   ),
                   style: TextButton.styleFrom(
@@ -228,26 +258,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 12),
-            child: Row(
-              children: [
-                Text(
-                  'Blum punya akun?',
-                  style: primaryTextStyle,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
-                  child: Text('Register'),
-                ),
-              ],
             ),
           ),
         ],
@@ -265,6 +275,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                nameInput(),
                 emailInput(),
                 passwordInput(),
                 isLoading ? ButtonLoading() : button(),

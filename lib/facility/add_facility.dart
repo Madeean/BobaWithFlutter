@@ -1,9 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bobawithflutter/models/user_login_model.dart';
+import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/facility_provider_amu.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:bobawithflutter/services/facility_service.dart'
+    as facilityService;
 
 class AddFacility extends StatefulWidget {
   @override
@@ -11,6 +17,9 @@ class AddFacility extends StatefulWidget {
 }
 
 class _AddFacilityState extends State<AddFacility> {
+  TextEditingController nameController = TextEditingController(text: '');
+  TextEditingController bodyController = TextEditingController(text: '');
+
   File? selectedImage;
   String base64Image = "";
 
@@ -34,11 +43,28 @@ class _AddFacilityState extends State<AddFacility> {
       });
     }
 
-    print(image);
+    print(selectedImage);
   }
 
   @override
   Widget build(BuildContext context) {
+    FacilityProviderAmu facilityProviderAmu =
+        Provider.of<FacilityProviderAmu>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserLoginModel userLoginModel = authProvider.user;
+
+    uploadHandling() async {
+      if (await facilityProviderAmu.addFacility(
+          nameController.text,
+          bodyController.text,
+          userLoginModel.token.toString(),
+          selectedImage!.path)) {
+        Navigator.pop(context);
+      } else {
+        print('gagal');
+      }
+    }
+
     PreferredSizeWidget header() {
       return AppBar(
         elevation: 0,
@@ -96,6 +122,7 @@ class _AddFacilityState extends State<AddFacility> {
                       child: TextFormField(
                         style: primaryTextStyle,
                         autocorrect: true,
+                        controller: nameController,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Facility Name',
                           hintStyle: subtitleTextStyle,
@@ -164,6 +191,7 @@ class _AddFacilityState extends State<AddFacility> {
                   padding: EdgeInsets.all(8.0),
                   child: TextField(
                     style: primaryTextStyle,
+                    controller: bodyController,
                     maxLines: 8, //or null
                     decoration: InputDecoration.collapsed(
                       hintText: "Enter your text here",
@@ -244,9 +272,7 @@ class _AddFacilityState extends State<AddFacility> {
           height: 50,
           width: 250,
           child: TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/management/home');
-            },
+            onPressed: uploadHandling,
             child: Text(
               'Upload',
               style: primaryTextStyle.copyWith(fontSize: 18),

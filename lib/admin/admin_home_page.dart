@@ -5,6 +5,7 @@ import 'package:bobawithflutter/admin/profile_page_admin.dart';
 import 'package:bobawithflutter/models/facility_model_AMU.dart';
 import 'package:bobawithflutter/models/user_login_model.dart';
 import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/booking_provider.dart';
 import 'package:bobawithflutter/providers/facility_provider_amu.dart';
 import 'package:bobawithflutter/providers/get_user_provider.dart';
 import 'package:bobawithflutter/theme.dart';
@@ -27,6 +28,19 @@ class _AdminHomePageState extends State<AdminHomePage> {
     FacilityProviderAmu facilityProviderAmu =
         Provider.of<FacilityProviderAmu>(context);
     GetUserProvider getUserProvider = Provider.of<GetUserProvider>(context);
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
+
+    getUserHandling() async {
+      await getUserProvider.getUser(userLoginModel.token.toString());
+    }
+
+    getFacilityHandling() async {
+      await facilityProviderAmu.getFacility(userLoginModel.token.toString());
+    }
+
+    getBookingHandling() async {
+      await bookingProvider.getBookings(userLoginModel.token.toString());
+    }
 
     Widget customBottomNav() {
       return ClipRRect(
@@ -103,12 +117,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
     Widget body() {
       switch (currentIndex) {
         case 0:
+          getUserHandling();
           return AdminUserPage();
           break;
         case 1:
+          getFacilityHandling();
           return FacilityPageAdmin();
           break;
         case 2:
+          getBookingHandling();
           return BookingPageAdmin();
           break;
         case 3:

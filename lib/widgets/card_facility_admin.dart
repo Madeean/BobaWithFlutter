@@ -1,4 +1,5 @@
-import 'package:bobawithflutter/models/facility_model_AMU.dart';
+import 'package:bobawithflutter/models/facility_model_amu.dart';
+import 'package:bobawithflutter/pages/facility_detail.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
@@ -73,7 +74,11 @@ class CardFamilyAdmin extends StatelessWidget {
                         width: 58,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/facility-detail');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        FacilityDetail(facilityModelAmu)));
                           },
                           style: TextButton.styleFrom(
                               backgroundColor: primaryColor,

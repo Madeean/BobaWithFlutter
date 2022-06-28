@@ -26,7 +26,7 @@ class _FacilityPageAdminState extends State<FacilityPageAdmin> {
         backgroundColor: backgroundColor2,
         automaticallyImplyLeading: false,
         title: Text(
-          'Facility Admin User',
+          'Facility Admin Page',
           style: primaryTextStyle.copyWith(
             fontSize: 25,
           ),

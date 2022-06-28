@@ -1,8 +1,11 @@
+import 'package:bobawithflutter/models/facility_model_amu.dart';
+import 'package:bobawithflutter/pages/booking_facility.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
 
 class FacilityDetail extends StatelessWidget {
-  const FacilityDetail({Key? key}) : super(key: key);
+  late final FacilityModelAmu facilityModelAmu;
+  FacilityDetail(this.facilityModelAmu);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,7 @@ class FacilityDetail extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Swimming Pool',
+          '${facilityModelAmu.name}',
           style: primaryTextStyle.copyWith(
             fontSize: 25,
           ),
@@ -31,13 +34,13 @@ class FacilityDetail extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: Image.asset('assets/image_shoes.png'),
+              child: Image.network(facilityModelAmu.image!),
             ),
             SizedBox(
               height: 20,
             ),
             Text(
-              'Swimming Pool',
+              '${facilityModelAmu.name}',
               style: primaryTextStyle.copyWith(
                 fontSize: 25,
               ),
@@ -46,7 +49,7 @@ class FacilityDetail extends StatelessWidget {
               height: 25,
             ),
             Text(
-              'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
+              '${facilityModelAmu.body}',
               style: primaryTextStyle,
               textAlign: TextAlign.justify,
             ),
@@ -61,7 +64,11 @@ class FacilityDetail extends StatelessWidget {
         width: double.infinity,
         child: TextButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/booking/facility');
+            // Navigator.pushNamed(context, '/booking/facility');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BookingFacility(facilityModelAmu)));
           },
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,

@@ -3,6 +3,7 @@ import 'package:bobawithflutter/auth/register_page.dart';
 import 'package:bobawithflutter/facility/add_facility.dart';
 import 'package:bobawithflutter/guest/guest_page.dart';
 import 'package:bobawithflutter/management/management_home_page.dart';
+import 'package:bobawithflutter/pages/add_user.dart';
 import 'package:bobawithflutter/pages/booking_facility.dart';
 import 'package:bobawithflutter/pages/facility_detail.dart';
 import 'package:bobawithflutter/providers/auth_provider.dart';
@@ -51,11 +52,12 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginPage(),
           '/register': (context) => RegisterPage(),
           '/user/home': (context) => userUserPage(),
-          '/facility-detail': (context) => FacilityDetail(),
+          // '/facility-detail': (context) => FacilityDetail(),
           '/admin/home': (context) => AdminHomePage(),
           '/management/home': (context) => ManagementHomePage(),
           '/add/facility': (context) => AddFacility(),
-          '/booking/facility': (context) => BookingFacility(),
+          // '/booking/facility': (context) => BookingFacility(),
+          '/add/user': (context) => AddUser(),
         },
       ),
     );

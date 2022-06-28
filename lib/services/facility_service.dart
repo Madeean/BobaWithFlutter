@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bobawithflutter/models/facility_model.dart';
-import 'package:bobawithflutter/models/facility_model_AMU.dart';
+import 'package:bobawithflutter/models/facility_model_amu.dart';
+import 'package:bobawithflutter/providers/facility_provider_amu.dart';
 import 'package:http/http.dart' as http;
 
 class FacilityService {
@@ -46,6 +48,30 @@ class FacilityService {
       return products;
     } else {
       throw Exception('gagal get Facility');
+    }
+  }
+
+  Future<bool> addFacility(
+      {required String body,
+      required String name,
+      required String image,
+      required String token}) async {
+    var url = '$baseUrl/facility/create';
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+      'Authorization': token,
+    };
+    var request = http.MultipartRequest('POST', Uri.parse(url))
+      ..fields['body'] = body
+      ..fields['name'] = name
+      ..headers.addAll(headers)
+      ..files.add(await http.MultipartFile.fromPath('image', image));
+    var response = await request.send();
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

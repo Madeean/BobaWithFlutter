@@ -47,7 +47,9 @@ class _AdminUserPageState extends State<AdminUserPage> {
                   width: 100,
                   height: 50,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/add/user');
+                    },
                     style: TextButton.styleFrom(
                       backgroundColor: primaryColor,
                       shape: RoundedRectangleBorder(

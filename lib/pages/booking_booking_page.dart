@@ -11,18 +11,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BookingFacility extends StatefulWidget {
-  late final FacilityModelAmu facilityModelAmu;
-  BookingFacility(this.facilityModelAmu);
+class BookingBookingPage extends StatefulWidget {
+  late final FacilityProviderAmu facilityProviderAmu;
+  BookingBookingPage(this.facilityProviderAmu);
 
   @override
-  State<BookingFacility> createState() => _BookingFacilityState();
+  State<BookingBookingPage> createState() => _BookingBookingPageState();
 }
 
-class _BookingFacilityState extends State<BookingFacility> {
+class _BookingBookingPageState extends State<BookingBookingPage> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
+
+  late final facility = widget.facilityProviderAmu.facilityamu
+      .map((facility) => facility.name)
+      .toList();
+  String? _currentFacility;
 
   _selectTime(BuildContext context) async {
     final TimeOfDay? timeOfDay = await showTimePicker(
@@ -80,11 +85,24 @@ class _BookingFacilityState extends State<BookingFacility> {
     String jamAkhir = "${endTime.hour}:${endTime.minute}";
 
     addBookingHandling() async {
+      int? id;
+      for (int i = 0; i < widget.facilityProviderAmu.facilityamu.length; i++) {
+        if (_currentFacility == facility[i]) {
+          id = i;
+        }
+      }
+      final test = widget.facilityProviderAmu.facilityamu
+          .map((facility) => facility.id)
+          .toList();
+
+      var idbenran = test[id!];
+
       setState(() {
         isLoading = true;
       });
+
       await bookingProvider.addBooking(userLoginModel.token.toString(),
-          widget.facilityModelAmu.id!.toInt(), tanggal, jamMulai, jamAkhir);
+          idbenran!.toInt(), tanggal, jamMulai, jamAkhir);
 
       Navigator.pushNamed(context, '/user/home');
     }
@@ -130,9 +148,24 @@ class _BookingFacilityState extends State<BookingFacility> {
                 color: backgroundColor5,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
-                '${widget.facilityModelAmu.name}',
-                style: primaryTextStyle.copyWith(fontSize: 16),
+              child: DropdownButtonFormField<String>(
+                value: _currentFacility,
+                style: primaryTextStyle,
+                dropdownColor: backgroundColor3,
+                items: facility.map((facility) {
+                  return DropdownMenuItem(
+                    value: facility,
+                    child: Text('$facility'),
+                  );
+                }).toList(),
+                onChanged: (val) => setState(() {
+                  _currentFacility = val;
+                  print(_currentFacility);
+                }),
+                hint: Text(
+                  'Pilih Facility',
+                  style: primaryTextStyle,
+                ),
               ),
             ),
           ],
