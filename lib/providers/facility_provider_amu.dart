@@ -39,4 +39,12 @@ class FacilityProviderAmu with ChangeNotifier {
       return false;
     }
   }
+
+  Future<void> deleteFacility(String token, int id) async {
+    try {
+      await FacilityService().deleteFacility(token: token, id: id);
+    } catch (err) {
+      print(err);
+    }
+  }
 }

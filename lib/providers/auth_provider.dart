@@ -1,3 +1,4 @@
+import 'package:bobawithflutter/models/get_user_model.dart';
 import 'package:bobawithflutter/models/user_login_model.dart';
 import 'package:bobawithflutter/models/user_register_model.dart';
 import 'package:bobawithflutter/services/auth_service.dart';
@@ -46,6 +47,14 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<void> deleteUser(String token, int idUser) async {
+    try {
+      await AuthService().DeleteUser(token: token, idUser: idUser);
+    } catch (err) {
+      print(err);
     }
   }
 }

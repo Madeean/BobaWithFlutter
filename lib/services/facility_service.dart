@@ -74,4 +74,27 @@ class FacilityService {
       return false;
     }
   }
+
+  Future deleteFacility({
+    required String token,
+    required int id,
+  }) async {
+    var url = '$baseUrl/facility/$id';
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+    var response = await http.post(
+      url,
+      headers: headers,
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+    } else {
+      print('gagal delete user');
+    }
+  }
 }

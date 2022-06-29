@@ -54,4 +54,12 @@ class BookingProvider with ChangeNotifier {
       print(err);
     }
   }
+
+  Future<void> deleteBooking(String token, int id) async {
+    try {
+      await BookingService().deleteBooking(token: token, id: id);
+    } catch (err) {
+      print(err);
+    }
+  }
 }

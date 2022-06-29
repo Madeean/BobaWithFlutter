@@ -104,4 +104,20 @@ class BookingService {
       print('gagal rejected booking');
     }
   }
+
+  Future deleteBooking({required String token, required int id}) async {
+    var url = '$baseUrl/booking/$id';
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+    var response = await http.post(url, headers: headers);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+    } else {
+      print('gagal rejected booking');
+    }
+  }
 }

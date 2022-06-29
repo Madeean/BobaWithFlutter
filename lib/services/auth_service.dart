@@ -1,3 +1,4 @@
+import 'package:bobawithflutter/models/get_user_model.dart';
 import 'package:bobawithflutter/models/user_login_model.dart';
 import 'package:bobawithflutter/models/user_register_model.dart';
 import 'package:http/http.dart' as http;
@@ -60,6 +61,29 @@ class AuthService {
       return user;
     } else {
       throw Exception('Gagal Login');
+    }
+  }
+
+  Future DeleteUser({
+    required String token,
+    required int idUser,
+  }) async {
+    var url = '$baseUrl/user/$idUser';
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+    var response = await http.post(
+      url,
+      headers: headers,
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+    } else {
+      print('gagal delete user');
     }
   }
 }

@@ -1,6 +1,10 @@
 import 'package:bobawithflutter/models/booking_model.dart';
+import 'package:bobawithflutter/models/user_login_model.dart';
+import 'package:bobawithflutter/providers/auth_provider.dart';
+import 'package:bobawithflutter/providers/booking_provider.dart';
 import 'package:bobawithflutter/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CardBooking extends StatelessWidget {
   late final BookingModel booking;
@@ -8,6 +12,15 @@ class CardBooking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserLoginModel userLoginModel = authProvider.user;
+    deleteHandling() async {
+      await bookingProvider.deleteBooking(
+          userLoginModel.token.toString(), booking.id!.toInt());
+      Navigator.pushNamed(context, '/admin/home');
+    }
+
     return Container(
       margin: EdgeInsets.only(
         left: defaultMargin,
@@ -151,6 +164,25 @@ class CardBooking extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: 150,
+            height: 45,
+            child: TextButton(
+              onPressed: deleteHandling,
+              style: TextButton.styleFrom(
+                  backgroundColor: alertColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  )),
+              child: Text(
+                'Delete',
+                style: blackTextStyle.copyWith(fontWeight: semiBold),
+              ),
+            ),
           ),
         ],
       ),
