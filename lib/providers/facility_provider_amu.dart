@@ -40,6 +40,38 @@ class FacilityProviderAmu with ChangeNotifier {
     }
   }
 
+  Future<bool> editFacility(
+      String name, String body, String? image, String token, int id) async {
+    try {
+      if (await FacilityService().editFacillity(
+          body: body, name: name, image: image, token: token, id: id)) {
+        print('berhasil edit facility');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      return false;
+    }
+  }
+
+  Future<bool> editFacilitygadaGambar(
+      String name, String body, String token, int id) async {
+    try {
+      if (await FacilityService().editFacillitygadaGambar(
+          bodyy: body, name: name, token: token, id: id)) {
+        print('berhasil edit facility');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      return false;
+    }
+  }
+
   Future<void> deleteFacility(String token, int id) async {
     try {
       await FacilityService().deleteFacility(token: token, id: id);

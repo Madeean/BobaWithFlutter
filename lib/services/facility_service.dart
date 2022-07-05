@@ -75,6 +75,61 @@ class FacilityService {
     }
   }
 
+  Future<bool> editFacillity({
+    required String token,
+    required String name,
+    required String body,
+    String? image,
+    required int id,
+  }) async {
+    var url = '$baseUrl/facility/edit/$id';
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+      'Authorization': token,
+    };
+    var request = http.MultipartRequest('POST', Uri.parse(url))
+      ..fields['body'] = body
+      ..fields['name'] = name
+      ..headers.addAll(headers)
+      ..files.add(await http.MultipartFile.fromPath('image', image));
+    var response = await request.send();
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> editFacillitygadaGambar({
+    required String token,
+    required String name,
+    required String bodyy,
+    required int id,
+  }) async {
+    var url = '$baseUrl/facility/edit/$id';
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+
+    Map data = {
+      "name": name,
+      "body": bodyy,
+    };
+
+    var body = jsonEncode(data);
+    print(body);
+    var response = await http.post(url, headers: headers, body: body);
+    print(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('gagal get Facility');
+    }
+  }
+
   Future deleteFacility({
     required String token,
     required int id,

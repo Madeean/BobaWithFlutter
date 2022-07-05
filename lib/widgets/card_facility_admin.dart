@@ -1,3 +1,4 @@
+import 'package:bobawithflutter/facility/edit_facility.dart';
 import 'package:bobawithflutter/models/facility_model_amu.dart';
 import 'package:bobawithflutter/models/user_login_model.dart';
 import 'package:bobawithflutter/pages/facility_detail.dart';
@@ -204,7 +205,13 @@ class CardFamilyAdmin extends StatelessWidget {
                       Container(
                         width: 58,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditFacility(facilityModelAmu)));
+                          },
                           style: TextButton.styleFrom(
                               backgroundColor: secondaryColor,
                               shape: RoundedRectangleBorder(
